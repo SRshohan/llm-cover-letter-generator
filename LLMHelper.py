@@ -1,5 +1,4 @@
 import os
-
 from ctransformers import AutoModelForCausalLM
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate

@@ -25,6 +25,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+CapybaraHermes-2.5-Mistral-7B-GPTQ/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

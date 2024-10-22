@@ -2,6 +2,27 @@ import time
 import streamlit as st
 import LLMHelper
 import streamlit.components.v1 as components
+from ctransformers import AutoModelForCausalLM
+
+AVAILABLE_MODELS_GGUF = {
+    "TheBloke/Marcoroni-7B-v3-GGUF": {
+        "model_file": "marcoroni-7b-v3.Q4_K_M.gguf",
+        "model_type": "marcoroni"
+    },
+    "TheBloke/Mistral-7B-Instruct-v0.2-GGUF": {
+        "model_file": "mistral-7b-instruct-v0.2.Q4_K_M.gguf",
+        "model_type": "mistral"
+    },
+    "TheBloke/LeoScorpius-7B-GGUF": {
+        "model_file": "leoscorpius-7b.Q4_K_M.gguf",
+        "model_type": "leoscorpius"
+    }
+}
+
+AVAILABLE_MODELS_OPENAI = [
+    "gpt-4-1106-preview", "gpt-4-32k", "gpt-3.5-turbo-1106",
+]
+
 
 def generate_open_source():
     with output_col:
