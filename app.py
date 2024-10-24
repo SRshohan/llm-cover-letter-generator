@@ -2,26 +2,7 @@ import time
 import streamlit as st
 import LLMHelper
 import streamlit.components.v1 as components
-from ctransformers import AutoModelForCausalLM
 
-AVAILABLE_MODELS_GGUF = {
-    "TheBloke/Marcoroni-7B-v3-GGUF": {
-        "model_file": "marcoroni-7b-v3.Q4_K_M.gguf",
-        "model_type": "marcoroni"
-    },
-    "TheBloke/Mistral-7B-Instruct-v0.2-GGUF": {
-        "model_file": "mistral-7b-instruct-v0.2.Q4_K_M.gguf",
-        "model_type": "mistral"
-    },
-    "TheBloke/LeoScorpius-7B-GGUF": {
-        "model_file": "leoscorpius-7b.Q4_K_M.gguf",
-        "model_type": "leoscorpius"
-    }
-}
-
-AVAILABLE_MODELS_OPENAI = [
-    "gpt-4-1106-preview", "gpt-4-32k", "gpt-3.5-turbo-1106",
-]
 
 
 def generate_open_source():
@@ -40,18 +21,7 @@ def generate_open_source():
         st.session_state.running = False
 
 
-def generate_openai():
-    with output_col:
-        start_time = time.time()
-        try:
-            cover_letter_generator = LLMHelper.generate_cover_letter_openai(
-                job_description=st.session_state['jd'], resume=st.session_state['resume'],
-                selected_model=selected_model, openai_key=open_ai_key
-            )
-            generate_response(cover_letter_generator, start_time)
-        except ValueError as e:
-            st.error("Please provide a valid Open AI API key")
-        st.session_state.running = False
+
 
 
 def generate_response(cover_letter_gen, start_time):
@@ -107,17 +77,9 @@ with input_col:
         if llm_tab == "Open Source LLMs":
             cover_letter_generator = None
             st.session_state.cover_letter_stream = ""
-            selected_model = st.selectbox("Select LLM Model", options=LLMHelper.AVAILABLE_MODELS_GGUF.keys(),
+            selected_model = st.selectbox("Select LLM Model", options="Llama 3.2 Ollama",
                                           disabled=st.session_state.running)
 
             st.button("Generate Cover Letter", key='open_source_gen_key', on_click=generate_open_source,
                       disabled=st.session_state.running)
 
-        elif llm_tab == "Open AI LLMs":
-            cover_letter_generator = None
-            st.session_state.cover_letter_stream = ""
-            selected_model = st.selectbox("Select Open AI Model", options=LLMHelper.AVAILABLE_MODELS_OPENAI,
-                                          disabled=st.session_state.running)
-            open_ai_key = st.text_input("Enter your open ai API key", type='password')
-            st.button("Generate Cover Letter", key='open_ai_gen_key', disabled=st.session_state.running,
-                      on_click=generate_openai)

@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+mistral-7b-instruct-v0.2.Q3_K_M.gguf
 # C extensions
 *.so
 
